@@ -1,0 +1,111 @@
+openapi: 3.0.0
+info:
+  title: Bookshelf API
+  description: REST API for testing training
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:8080
+    description: Local docker image
+
+paths:
+  /book:
+    post:
+      summary: Adds a new book to a library
+      requestBody:
+        description: Adds a new book to a library
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /book/{isbn}:
+    get:
+      summary: Returns book of given ISBN
+      parameters:
+        - in: path
+          name: isbn
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+
+components:
+  schemas:
+    Book:
+      type: object
+      required:
+        - isbn
+        - title
+        - authors
+      properties:
+        isbn:
+          type: string
+          pattern: "(978)?\\d{10}"
+          example: "9788377582558"
+        title:
+          type: string
+          example: "Władca Pierścieni"
+        authors:
+          type: array
+          items:
+            type: string
+          example: ["J.R.R. Tolkien"]
+        description:
+          type: string
+          example: >-
+             Czarodziej Gandalf po przybyciu do Shire, kraju hobbitów odkrywa,
+             że magiczny pierścień będący w posiadaniu hobbita Bilbo Bagginsa
+             to w rzeczywistości Jedyny Pierścień stworzony przez władcę
+             ciemności, Saurona, który pozwala kontrolować inne Pierścienie
+             Władzy. Jeśli Sauron odzyska pierścień całe Śródziemie czeka
+             zagłada, a jedynym sposobem na jego zniszczenie jest wrzucenie go
+             w czeluście Orodruiny, gdzie został wykuty.
+        page_count:
+          type: integer
+          minimum: 0
+          example: 1277
+        format:
+          type: string
+          enum:
+            - book
+            - ebook
+            - audiobook
+          example: "book"
+    
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: "Error during processing of the request."
+      
