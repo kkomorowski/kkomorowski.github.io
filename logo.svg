@@ -1,0 +1,15 @@
+<svg
+     viewBox="0 0 26.458333 26.458333"
+     version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:svg="http://www.w3.org/2000/svg">
+<g>
+    <circle cx="13" cy="13" r="13" stroke-width="0" fill="#084887" />
+    <circle cx="17.430239" cy="18.296894" r="0.75" />
+    <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="black"
+        d="m 19.514967,6.8894074 c -1.66,9.2717106 -1.66,9.2312226 -1.66,9.2312226 v 0"/>
+    <circle cx="14.895748" cy="9.4601536" r="0.75" />
+    <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="black"
+        d="M 9.046092,6.9167308 6.9451135,18.20949 c 1.3008155,-7.340865 5.5235595,-7.21419 3.8342855,-3.361566 -1.4604348,3.477502 0.898128,3.642634 1.52321,3.098944 0.896169,-0.858713 1.653674,-3.744345 2.048454,-5.672642 -1.71106,6.99123 0.440963,6.860832 1.155539,4.149432"/>
+</g>
+</svg>
