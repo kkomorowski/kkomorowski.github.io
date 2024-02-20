@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>hiquality.dev</title>
-    <link>https://hiquality.dev/</link>
-    <description>Recent content on hiquality.dev</description>
+    <title>Scala on hiquality.dev</title>
+    <link>https://hiquality.dev/tags/scala/</link>
+    <description>Recent content in Scala on hiquality.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 20 Feb 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://hiquality.dev/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://hiquality.dev/tags/scala/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Automated Acceptance Tests with ScalaTest</title>
       <link>https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/</link>
       <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
       <guid>https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/</guid>
       <description>&lt;p&gt;Almost seven years ago I&amp;rsquo;ve started a new and unexpected journey. Back then&#xA;I had some experience with test automation in Python and Java and I&amp;rsquo;ve joined&#xA;the team working on the backend application written in Scala. It was my first&#xA;experience with functional programming so I was wondering if&#xA;it would not be hard to learn and maintain the test suite written in this&#xA;new for me language. It turned out that it&amp;rsquo;s not and the work with Scala&#xA;gave me a lot of fun.&lt;/p&gt;&#xA;&lt;p&gt;In this first episode of the blog post series I would like to show how&#xA;to start testing a REST API using ScalaTest and how to use some more&#xA;advanced features of this one of the most popular Scala-based test frameworks.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>About Me</title>
-      <link>https://hiquality.dev/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://hiquality.dev/about/</guid>
-      <description> Hi! Welcome to my blog. My name is Krzysztof Komorowski. I am test engineer and software developer pasionate about functional programming.&#xA;You can find me at:&#xA;Mastodon GitHub LinkedIn </description>
     </item>
   </channel>
 </rss>

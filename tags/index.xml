@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on hiquality.dev</title>
+    <link>https://hiquality.dev/tags/</link>
+    <description>Recent content in Tags on hiquality.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 20 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://hiquality.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BDD</title>
+      <link>https://hiquality.dev/tags/bdd/</link>
+      <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://hiquality.dev/tags/bdd/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Functional</title>
+      <link>https://hiquality.dev/tags/functional/</link>
+      <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://hiquality.dev/tags/functional/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Scala</title>
+      <link>https://hiquality.dev/tags/scala/</link>
+      <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://hiquality.dev/tags/scala/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Testing</title>
+      <link>https://hiquality.dev/tags/testing/</link>
+      <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://hiquality.dev/tags/testing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tutorial</title>
+      <link>https://hiquality.dev/tags/tutorial/</link>
+      <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://hiquality.dev/tags/tutorial/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
