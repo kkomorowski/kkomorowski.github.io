@@ -6,12 +6,12 @@
     <description>Recent content in BDD on hiquality.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 20 Feb 2024 19:45:00 +0100</lastBuildDate>
     <atom:link href="https://hiquality.dev/tags/bdd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Automated Acceptance Tests with ScalaTest</title>
       <link>https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/</link>
-      <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 20 Feb 2024 19:45:00 +0100</pubDate>
       <guid>https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/</guid>
       <description>&lt;p&gt;Almost seven years ago I&amp;rsquo;ve started a new and unexpected journey. Back then&#xA;I had some experience with test automation in Python and Java and I&amp;rsquo;ve joined&#xA;the team working on the backend application written in Scala. It was my first&#xA;experience with functional programming so I was wondering if&#xA;it would not be hard to learn and maintain the test suite written in this&#xA;new for me language. It turned out that it&amp;rsquo;s not and the work with Scala&#xA;gave me a lot of fun.&lt;/p&gt;&#xA;&lt;p&gt;In this first episode of the blog post series I would like to show how&#xA;to start testing a REST API using ScalaTest and how to use some more&#xA;advanced features of this one of the most popular Scala-based test frameworks.&lt;/p&gt;</description>
     </item>
