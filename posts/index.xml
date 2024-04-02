@@ -1,124 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on hiquality.dev</title><link>https://hiquality.dev/posts/</link><description>Recent content in Posts on hiquality.dev</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Feb 2024 19:45:00 +0100</lastBuildDate><atom:link href="https://hiquality.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Automated Acceptance Tests with ScalaTest</title><link>https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/</link><pubDate>Tue, 20 Feb 2024 19:45:00 +0100</pubDate><guid>https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/</guid><summary>&lt;p>Almost seven years ago I&amp;rsquo;ve started a new and unexpected journey. Back then
-I had some experience with test automation in Python and Java and I&amp;rsquo;ve joined
-the team working on the backend application written in Scala. It was my first
-experience with functional programming so I was wondering if
-it would not be hard to learn and maintain the test suite written in this
-new for me language. It turned out that it&amp;rsquo;s not and the work with Scala
-gave me a lot of fun.&lt;/p>
-&lt;p>In this first episode of the blog post series I would like to show how
-to start testing a REST API using ScalaTest and how to use some more
-advanced features of this one of the most popular Scala-based test frameworks.&lt;/p></summary><description>&lt;p>Almost seven years ago I&amp;rsquo;ve started a new and unexpected journey. Back then
-I had some experience with test automation in Python and Java and I&amp;rsquo;ve joined
-the team working on the backend application written in Scala. It was my first
-experience with functional programming so I was wondering if
-it would not be hard to learn and maintain the test suite written in this
-new for me language. It turned out that it&amp;rsquo;s not and the work with Scala
-gave me a lot of fun.&lt;/p>
-&lt;p>In this first episode of the blog post series I would like to show how
-to start testing a REST API using ScalaTest and how to use some more
-advanced features of this one of the most popular Scala-based test frameworks.&lt;/p>
-&lt;h2 id="setting-up-scalatest-test-project">Setting up ScalaTest test project.&lt;/h2>
-&lt;p>Scala is a JVM based language so we will need to have JDK installed (I usually use
-the latest LTS release &amp;ndash; 21 at the time of writing this article).&lt;/p>
-&lt;p>We would also use &lt;a href="https://www.scala-sbt.org/">SBT&lt;/a> &amp;ndash; the most popular build tools
-for Scala projects.&lt;/p>
-&lt;p>After installing both we can start a new ScalaTest project from scratch
-using following in your command line:&lt;/p>
-&lt;p>&lt;code>sbt new scala/scalatest-example.g8&lt;/code> &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/p>
-&lt;p>You can also clone the GitHub repository with the code presented
-in this article: &lt;a href="https://github.com/kkomorowski/scalatest-getting-started">https://github.com/kkomorowski/scalatest-getting-started&lt;/a>&lt;/p>
-&lt;h2 id="some-gherkin-please">Some Gherkin, please!&lt;/h2>
-&lt;p>The clue of the Behavior-Driven Development are the well defined test
-scenarios that might be used as the documentation of the system. ScalaTest
-is a very versatile test framework that gives the possibility of
-choosing the test style that best suites your needs.&lt;/p>
-&lt;p>In the example we&amp;rsquo;ll use &lt;code>FeatureSpec&lt;/code> and &lt;code>GivenWhenThen&lt;/code> from ScalaTest
-to describe the scenarios of our tested feature using Gherkin-like DSL:&lt;/p>
-&lt;pre>&lt;code class="language-scala">class GitHubUserSpec extends AnyFeatureSpec with GivenWhenThen:
-
- Feature(&amp;quot;GitHub User Profile&amp;quot;):
-
- info(&amp;quot;As a programmer&amp;quot;)
- info(&amp;quot;I want to check the user profile presence&amp;quot;)
- info(&amp;quot;So I know if I can create an account with a given name&amp;quot;)
-
- Scenario(&amp;quot;GitHub User Exists&amp;quot;):
- Given(&amp;quot;a GitHub account exists&amp;quot;)
- When(&amp;quot;I send a request to the /user/{username} API endpoint&amp;quot;)
- Then(&amp;quot;I get the response with HTTP status code 200&amp;quot;)
-&lt;/code>&lt;/pre>
-&lt;p>NOTE: The examples use the Scala 3
-&lt;a href="https://docs.scala-lang.org/scala3/reference/other-new-features/indentation.html">significant indentation&lt;/a>.
-This way of writing of ScalaTest scenarios even more resembles Cucumber &lt;code>feature&lt;/code> files to me.&lt;/p>
-&lt;h2 id="lets-make-a-request">Let&amp;rsquo;s make a request!&lt;/h2>
-&lt;p>Unlike Cucumber or JBehave our &lt;code>Given When Then&lt;/code> steps are purely informational
-and does not bring any implementation of the test behind. We need to implement
-the test code ourself.&lt;/p>
-&lt;p>Let&amp;rsquo;s try to make a first request. Scala is highly compatible with Java
-so we could use one of the well known API testing libraries like RestAssured but here I would like to
-show you &lt;a href="https://sttp.softwaremill.com/en/stable/">sttp&lt;/a> &amp;ndash; a Scala-based library that
-will send the HTTP request for us.&lt;/p>
-&lt;p>Simply add this line to your &lt;code>build.sbt&lt;/code> project file:&lt;/p>
-&lt;pre>&lt;code class="language-scala">libraryDependencies += &amp;quot;com.softwaremill.sttp.client3&amp;quot; %% &amp;quot;core&amp;quot; % &amp;quot;3.9.3&amp;quot;
-&lt;/code>&lt;/pre>
-&lt;p>and import to easily use Java HTTP client from Scala code:&lt;/p>
-&lt;pre>&lt;code class="language-scala">import sttp.client3.quick.*
-&lt;/code>&lt;/pre>
-&lt;p>Now we can fill up our scenario with the code:&lt;/p>
-&lt;pre>&lt;code class="language-scala">Scenario(&amp;quot;GitHub User Exists&amp;quot;):
- Given(&amp;quot;a GitHub account exists&amp;quot;)
- val username = &amp;quot;kkomorowski&amp;quot;
- When(&amp;quot;I send a request to the /user/{username} API endpoint&amp;quot;)
- val request = quickRequest.get(uri&amp;quot;https://api.github.com/users/$username&amp;quot;)
- val response = simpleHttpClient.send(request)
- Then(&amp;quot;I get the response with HTTP status code 200&amp;quot;)
-&lt;/code>&lt;/pre>
-&lt;h2 id="-and-assert-on-the-response">&amp;hellip; and assert on the response.&lt;/h2>
-&lt;p>The only thing left is to assert on the response from the API.
-We can use ScalaTest matchers to have the code more readable:&lt;/p>
-&lt;p>Add &lt;code>org.scalatest.matchers.must.Matchers&lt;/code> to the imports and extend your
-test class with &lt;code>Matchers&lt;/code> trait. Now we can write the assertion
-the following way:&lt;/p>
-&lt;pre>&lt;code class="language-scala"> response.code mustBe StatusCode(200)
-&lt;/code>&lt;/pre>
-&lt;h2 id="running-your-first-tests">Running your first tests&lt;/h2>
-&lt;p>The test is ready to be run. You can run it easily from the IDE (IntelliJ IDEA
-is able to do it when equipped with Scala plugin. VSCode needs Metals extension).&lt;/p>
-&lt;p>To run the tests from the command line we can use &lt;code>sbt&lt;/code>, just write:&lt;/p>
-&lt;pre>&lt;code>sbt test
-&lt;/code>&lt;/pre>
-&lt;p>in your command line.&lt;/p>
-&lt;p>After few lines of the logs from the build stage you should see a simple
-text base test report similar to this one:&lt;/p>
-&lt;pre>&lt;code class="language-markdown">[info] GitHubUserSpec:
-[info] Feature: GitHub User Profile
-[info] As a programmer 
-[info] I want to check the user profile presence 
-[info] So I know if I can create an account with a given name 
-[info] Scenario: GitHub User Exists
-[info] Given a GitHub account exists 
-[info] When I send a request to the /user/{username} API endpoint 
-[info] Then I get the response with HTTP status code 200
-[info] Run completed in 1 second, 811 milliseconds.
-[info] Total number of tests run: 1
-[info] Suites: completed 1, aborted 0
-[info] Tests: succeeded 1, failed 0, canceled 0, ignored 0, pending 0
-[info] All tests passed.
-&lt;/code>&lt;/pre>
-&lt;h2 id="end-words">End words&lt;/h2>
-&lt;p>In this article we&amp;rsquo;ve written our acceptance tests of the REST API using ScalaTest.
-Using &lt;code>FeatureSpec&lt;/code> and &lt;code>GivenWhenThen&lt;/code> trait we&amp;rsquo;ve been able describe
-the test scenarios and add the logic code of the test using STTP library
-to make the HTTP request and add a simple assertion on the result.&lt;/p>
-&lt;p>I hope that this short guide gave you an inspiration to try ScalaTest
-in your testing project and convinced you that it might not be that
-hard to learn.&lt;/p>
-&lt;div class="footnotes" role="doc-endnotes">
-&lt;hr>
-&lt;ol>
-&lt;li id="fn:1">
-&lt;p>You can find an official guide on the Scala Language website:
-&lt;a href="https://docs.scala-lang.org/getting-started/sbt-track/testing-scala-with-sbt-on-the-command-line.html">https://docs.scala-lang.org/getting-started/sbt-track/testing-scala-with-sbt-on-the-command-line.html&lt;/a>.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;/div></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on hiquality.dev</title>
+    <link>https://hiquality.dev/posts/</link>
+    <description>Recent content in Posts on hiquality.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 02 Apr 2024 21:00:00 +0200</lastBuildDate>
+    <atom:link href="https://hiquality.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>REST API Testing with Scalatest - Matchers</title>
+      <link>https://hiquality.dev/posts/rest-api-testing-with-scalatest-matchers/</link>
+      <pubDate>Tue, 02 Apr 2024 21:00:00 +0200</pubDate>
+      <guid>https://hiquality.dev/posts/rest-api-testing-with-scalatest-matchers/</guid>
+      <summary>In the previous post I&amp;rsquo;ve described how to start with test automation of the REST API using ScalaTest. Today I would like to show some more examples of using ScalaTest matchers - a smart way of writing more readable assertions.&#xA;String matchers Let&amp;rsquo;s get back for a while to our previous code example. Our test seems still a bit unfinished as we have no assertions on the response body. ScalaTest has few methods defined called matchers which will give us nice looking assertions on the different data types.</summary>
+      <description>&lt;p&gt;In the &lt;a href=&#34;https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/&#34;&gt;previous post&lt;/a&gt;&#xA;I&amp;rsquo;ve described how to start with test automation of the REST API using ScalaTest.&#xA;Today I would like to show some more examples of using ScalaTest matchers - a smart&#xA;way of writing more readable assertions.&lt;/p&gt;&#xA;&lt;!-- more --&gt;&#xA;&lt;h2 id=&#34;string-matchers&#34;&gt;String matchers&lt;/h2&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s get back for a while to our&#xA;&lt;a href=&#34;https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/#example-send-request&#34;&gt;previous code example&lt;/a&gt;.&#xA;Our test seems still a bit unfinished as we have no assertions on the response body.&#xA;ScalaTest has few methods defined called matchers which will give us nice looking assertions&#xA;on the different data types.&lt;/p&gt;&#xA;&lt;h3 id=&#34;startwith-endwith-include&#34;&gt;startWith, endWith, include&lt;/h3&gt;&#xA;&lt;p&gt;First, we&amp;rsquo;ll check simple assertions working on Strings:&lt;/p&gt;&#xA;&lt;p&gt;The response body must contain the blog name:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;response.body must include(&amp;quot;https://hiquality.dev&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;The body must also start and end with braces:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;response.body must startWith(&amp;quot;{&amp;quot;)&#xA;response.body must endWith(&amp;quot;}&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;h3 id=&#34;regular-expressions&#34;&gt;Regular expressions&lt;/h3&gt;&#xA;&lt;p&gt;We can also check if the response body matches a regular expression:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;response.body must fullyMatch regex &amp;quot;&amp;quot;&amp;quot;.*&amp;quot;blog&amp;quot;:&amp;quot;(https://)?hiquality\.dev&amp;quot;.*&amp;quot;&amp;quot;&amp;quot;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;h2 id=&#34;parsing-a-response-to-json&#34;&gt;Parsing a response to JSON&lt;/h2&gt;&#xA;&lt;p&gt;Checking the response body as string might be a bit too verbose.&#xA;Of course there is a better way to do it: we&amp;rsquo;ll parse the response body to a Scala object.&lt;/p&gt;&#xA;&lt;p&gt;In this example I&amp;rsquo;ve chosen &lt;a href=&#34;%22https://circe.github.io/circe/%22&#34;&gt;Circe&lt;/a&gt; -&#xA;one of the most popular JSON libraries for Scala.&lt;/p&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s add some dependencies to &lt;code&gt;build.sbt&lt;/code&gt;:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val circeVersion = &amp;quot;0.14.6&amp;quot;&#xA;libraryDependencies += &amp;quot;io.circe&amp;quot; %% &amp;quot;circe-core&amp;quot; % circeVersion&#xA;libraryDependencies += &amp;quot;io.circe&amp;quot; %% &amp;quot;circe-generic&amp;quot; % circeVersion&#xA;libraryDependencies += &amp;quot;io.circe&amp;quot; %% &amp;quot;circe-parser&amp;quot; % circeVersion&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll use also sttp&amp;rsquo;s Circe integration:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;libraryDependencies += &amp;quot;com.softwaremill.sttp.client3&amp;quot; %% &amp;quot;circe&amp;quot; % &amp;quot;3.9.3&amp;quot;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;First we&amp;rsquo;ll define a &lt;code&gt;GitHubUserProfile&lt;/code&gt; case class:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;case class GitHubUserProfile(&#xA;    login: String,&#xA;    id: Int,&#xA;    name: String,&#xA;    company: Option[String],&#xA;    blog: String&#xA;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;and pass it as a type parameter to the decoder in the request definition:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val request = quickRequest&#xA;    .get(uri&amp;quot;https://api.github.com/users/kkomorowski&amp;quot;)&#xA;    .response(asJson[GitHubUserProfile])&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;In the previous example the response body had type &lt;code&gt;String&lt;/code&gt;.&#xA;This time it is different and - the client returns&#xA;&lt;code&gt;Either[ResponseException[String, circe.Error], GitHubUserProfile]&lt;/code&gt;.&#xA;If parsing the response body fails, we&amp;rsquo;ll get an exception on the&#xA;left side of the &lt;code&gt;Either&lt;/code&gt;, otherwise we&amp;rsquo;ll get the parsed object on the right side.&lt;/p&gt;&#xA;&lt;p&gt;We can now check if the response was successful and safely extract the value from the &lt;code&gt;Either&lt;/code&gt;&#xA;and assert on the fields of the object:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;response.body.isRight must be(true)&#xA;val user = response.body.toOption.get&#xA;user.blog must be(&amp;quot;https://hiquality.dev&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;The problem with this code snippet is when the first assertion fails, we&amp;rsquo;ll get quite&#xA;unpleasant error on the logs:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;false was not equal to true&#xA;ScalaTestFailureLocation: GitHubUserSpec at (GitHubUserSpec.scala:49)&#xA;Expected :true&#xA;Actual   :false&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;Except for the file and line number in the stack trace this gives not much&#xA;clue what was the reason for failure. If we skip the assertion here, we could&#xA;end up in even more cumbersome &lt;code&gt;NoSuchElementException&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;eithervalues-trait&#34;&gt;EitherValues trait&lt;/h2&gt;&#xA;&lt;p&gt;Fortunately ScalaTest provides a handy &lt;code&gt;EitherValues&lt;/code&gt; trait that makes&#xA;it easier to work with &lt;code&gt;Either&lt;/code&gt; values.&lt;/p&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s import it and use it in our test:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import org.scalatest.EitherValues&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;and mix-in it by extending our test class.&lt;/p&gt;&#xA;&lt;p&gt;We can now write our previous assertion the following way:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val user = response.body.value&#xA;user.blog must be(&amp;quot;https://hiquality.dev&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;The &lt;code&gt;value&lt;/code&gt; implicit conversion is used to extract the value&#xA;from the &lt;code&gt;Either&lt;/code&gt; and to assert on it.&lt;/p&gt;&#xA;&lt;p&gt;We can also assert on the left side of the &lt;code&gt;Either&lt;/code&gt; if the parsing of the response body fails:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;response.body.left.value mustBe a [ResponseException[_, _]]&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;In the example above we&amp;rsquo;ve asserted not on the value but on the type of the left side of the &lt;code&gt;Either&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Similar traits as &lt;code&gt;EitherValues&lt;/code&gt; exist for &lt;code&gt;Option&lt;/code&gt; and &lt;code&gt;Try&lt;/code&gt; types.&lt;/p&gt;&#xA;&lt;h2 id=&#34;matcher-negations&#34;&gt;Matcher negations&lt;/h2&gt;&#xA;&lt;p&gt;We can also easily negate the matcher by using a &lt;code&gt;not&lt;/code&gt; word in our matcher.&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;user.blog must not be empty&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;&#xA;&lt;p&gt;In this blog post we&amp;rsquo;ve learned how to parse an HTTP response body to&#xA;Scala case class using Circe. We&amp;rsquo;ve tried different ways of writing&#xA;the assertions in the test and have more readable error messages&#xA;for the failed assertions thanks to &lt;code&gt;EitherValue&lt;/code&gt; trait provided by&#xA;ScalaTest.&lt;/p&gt;&#xA;&lt;p&gt;Thanks for reading this article and see you in the next episode&#xA;of ScalaTest series.&lt;/p&gt;&#xA;</description>
+    </item>
+    <item>
+      <title>Automated Acceptance Tests with ScalaTest</title>
+      <link>https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/</link>
+      <pubDate>Tue, 20 Feb 2024 19:45:00 +0100</pubDate>
+      <guid>https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/</guid>
+      <summary>&lt;p&gt;Almost seven years ago I&amp;rsquo;ve started a new and unexpected journey. Back then&#xA;I had some experience with test automation in Python and Java and I&amp;rsquo;ve joined&#xA;the team working on the backend application written in Scala. It was my first&#xA;experience with functional programming so I was wondering if&#xA;it would not be hard to learn and maintain the test suite written in this&#xA;new for me language. It turned out that it&amp;rsquo;s not and the work with Scala&#xA;gave me a lot of fun.&lt;/p&gt;&#xA;&lt;p&gt;In this first episode of the blog post series I would like to show how&#xA;to start testing a REST API using ScalaTest and how to use some more&#xA;advanced features of this one of the most popular Scala-based test frameworks.&lt;/p&gt;</summary>
+      <description>&lt;p&gt;Almost seven years ago I&amp;rsquo;ve started a new and unexpected journey. Back then&#xA;I had some experience with test automation in Python and Java and I&amp;rsquo;ve joined&#xA;the team working on the backend application written in Scala. It was my first&#xA;experience with functional programming so I was wondering if&#xA;it would not be hard to learn and maintain the test suite written in this&#xA;new for me language. It turned out that it&amp;rsquo;s not and the work with Scala&#xA;gave me a lot of fun.&lt;/p&gt;&#xA;&lt;p&gt;In this first episode of the blog post series I would like to show how&#xA;to start testing a REST API using ScalaTest and how to use some more&#xA;advanced features of this one of the most popular Scala-based test frameworks.&lt;/p&gt;&#xA;&lt;h2 id=&#34;setting-up-scalatest-test-project&#34;&gt;Setting up ScalaTest test project.&lt;/h2&gt;&#xA;&lt;p&gt;Scala is a JVM based language so we will need to have JDK installed (I usually use&#xA;the latest LTS release &amp;ndash; 21 at the time of writing this article).&lt;/p&gt;&#xA;&lt;p&gt;We would also use &lt;a href=&#34;https://www.scala-sbt.org/&#34;&gt;SBT&lt;/a&gt; &amp;ndash; the most popular build tools&#xA;for Scala projects.&lt;/p&gt;&#xA;&lt;p&gt;After installing both we can start a new ScalaTest project from scratch&#xA;using following in your command line:&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;sbt new scala/scalatest-example.g8&lt;/code&gt; &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;You can also clone the GitHub repository with the code presented&#xA;in this article: &lt;a href=&#34;https://github.com/kkomorowski/scalatest-getting-started&#34;&gt;https://github.com/kkomorowski/scalatest-getting-started&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;some-gherkin-please&#34;&gt;Some Gherkin, please!&lt;/h2&gt;&#xA;&lt;p&gt;The clue of the Behavior-Driven Development are the well defined test&#xA;scenarios that might be used as the documentation of the system. ScalaTest&#xA;is a very versatile test framework that gives the possibility of&#xA;choosing the test style that best suites your needs.&lt;/p&gt;&#xA;&lt;p&gt;In the example we&amp;rsquo;ll use &lt;code&gt;FeatureSpec&lt;/code&gt; and &lt;code&gt;GivenWhenThen&lt;/code&gt; from ScalaTest&#xA;to describe the scenarios of our tested feature using Gherkin-like DSL:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;class GitHubUserSpec extends AnyFeatureSpec with GivenWhenThen:&#xA;&#xA;  Feature(&amp;quot;GitHub User Profile&amp;quot;):&#xA;&#xA;    info(&amp;quot;As a programmer&amp;quot;)&#xA;    info(&amp;quot;I want to check the user profile presence&amp;quot;)&#xA;    info(&amp;quot;So I know if I can create an account with a given name&amp;quot;)&#xA;&#xA;    Scenario(&amp;quot;GitHub User Exists&amp;quot;):&#xA;      Given(&amp;quot;a GitHub account exists&amp;quot;)&#xA;      When(&amp;quot;I send a request to the /user/{username} API endpoint&amp;quot;)&#xA;      Then(&amp;quot;I get the response with HTTP status code 200&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;NOTE: The examples use the Scala 3&#xA;&lt;a href=&#34;https://docs.scala-lang.org/scala3/reference/other-new-features/indentation.html&#34;&gt;significant indentation&lt;/a&gt;.&#xA;This way of writing of ScalaTest scenarios even more resembles Cucumber &lt;code&gt;feature&lt;/code&gt; files to me.&lt;/p&gt;&#xA;&lt;h2 id=&#34;lets-make-a-request&#34;&gt;Let&amp;rsquo;s make a request!&lt;/h2&gt;&#xA;&lt;p&gt;Unlike Cucumber or JBehave our &lt;code&gt;Given When Then&lt;/code&gt; steps are purely informational&#xA;and does not bring any implementation of the test behind. We need to implement&#xA;the test code ourself.&lt;/p&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s try to make a first request. Scala is highly compatible with Java&#xA;so we could use one of the well known API testing libraries like RestAssured but here I would like to&#xA;show you &lt;a href=&#34;https://sttp.softwaremill.com/en/stable/&#34;&gt;sttp&lt;/a&gt; &amp;ndash; a Scala-based library that&#xA;will send the HTTP request for us.&lt;/p&gt;&#xA;&lt;p&gt;Simply add this line to your &lt;code&gt;build.sbt&lt;/code&gt; project file:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;libraryDependencies += &amp;quot;com.softwaremill.sttp.client3&amp;quot; %% &amp;quot;core&amp;quot; % &amp;quot;3.9.3&amp;quot;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;and import to easily use Java HTTP client from Scala code:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import sttp.client3.quick.*&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p id=&#34;example-send-request&#34;&gt;Now we can fill up our scenario with the code:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;Scenario(&amp;quot;GitHub User Exists&amp;quot;):&#xA;  Given(&amp;quot;a GitHub account exists&amp;quot;)&#xA;  val username = &amp;quot;kkomorowski&amp;quot;&#xA;  When(&amp;quot;I send a request to the /user/{username} API endpoint&amp;quot;)&#xA;  val request = quickRequest.get(uri&amp;quot;https://api.github.com/users/$username&amp;quot;)&#xA;  val response = simpleHttpClient.send(request)&#xA;  Then(&amp;quot;I get the response with HTTP status code 200&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;h2 id=&#34;-and-assert-on-the-response&#34;&gt;&amp;hellip; and assert on the response.&lt;/h2&gt;&#xA;&lt;p&gt;The only thing left is to assert on the response from the API.&#xA;We can use ScalaTest matchers to have the code more readable:&lt;/p&gt;&#xA;&lt;p&gt;Add &lt;code&gt;org.scalatest.matchers.must.Matchers&lt;/code&gt; to the imports and extend your&#xA;test class with &lt;code&gt;Matchers&lt;/code&gt; trait. Now we can write the assertion&#xA;the following way:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;  response.code mustBe StatusCode(200)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;h2 id=&#34;running-your-first-tests&#34;&gt;Running your first tests&lt;/h2&gt;&#xA;&lt;p&gt;The test is ready to be run. You can run it easily from the IDE (IntelliJ IDEA&#xA;is able to do it when equipped with Scala plugin. VSCode needs Metals extension).&lt;/p&gt;&#xA;&lt;p&gt;To run the tests from the command line we can use &lt;code&gt;sbt&lt;/code&gt;, just write:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;sbt test&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;in your command line.&lt;/p&gt;&#xA;&lt;p&gt;After few lines of the logs from the build stage you should see a simple&#xA;text base test report similar to this one:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;[info] GitHubUserSpec:&#xA;[info] Feature: GitHub User Profile&#xA;[info]   As a programmer &#xA;[info]   I want to check the user profile presence &#xA;[info]   So I know if I can create an account with a given name &#xA;[info]   Scenario: GitHub User Exists&#xA;[info]     Given a GitHub account exists &#xA;[info]     When I send a request to the /user/{username} API endpoint &#xA;[info]     Then I get the response with HTTP status code 200&#xA;[info] Run completed in 1 second, 811 milliseconds.&#xA;[info] Total number of tests run: 1&#xA;[info] Suites: completed 1, aborted 0&#xA;[info] Tests: succeeded 1, failed 0, canceled 0, ignored 0, pending 0&#xA;[info] All tests passed.&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;h2 id=&#34;end-words&#34;&gt;End words&lt;/h2&gt;&#xA;&lt;p&gt;In this article we&amp;rsquo;ve written our acceptance tests of the REST API using ScalaTest.&#xA;Using &lt;code&gt;FeatureSpec&lt;/code&gt; and &lt;code&gt;GivenWhenThen&lt;/code&gt; trait we&amp;rsquo;ve been able describe&#xA;the test scenarios and add the logic code of the test using STTP library&#xA;to make the HTTP request and add a simple assertion on the result.&lt;/p&gt;&#xA;&lt;p&gt;I hope that this short guide gave you an inspiration to try ScalaTest&#xA;in your testing project and convinced you that it might not be that&#xA;hard to learn.&lt;/p&gt;&#xA;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;&#xA;&lt;hr&gt;&#xA;&lt;ol&gt;&#xA;&lt;li id=&#34;fn:1&#34;&gt;&#xA;&lt;p&gt;You can find an official guide on the Scala Language website:&#xA;&lt;a href=&#34;https://docs.scala-lang.org/getting-started/sbt-track/testing-scala-with-sbt-on-the-command-line.html&#34;&gt;https://docs.scala-lang.org/getting-started/sbt-track/testing-scala-with-sbt-on-the-command-line.html&lt;/a&gt;.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;/div&gt;</description>
+    </item>
+  </channel>
+</rss>

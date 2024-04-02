@@ -1,23 +1,117 @@
-<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Automated Acceptance Tests with ScalaTest | hiquality.dev</title>
-<link rel=stylesheet href=/css/main.min.d8efa8264547c50eb7bbf8edea765adbec1f592d011fcb9f640e80bf3be2caa1.css integrity="sha256-2O+oJkVHxQ63u/jt6nZa2+wfWS0BH8ufZA6AvzviyqE=" crossorigin=anonymous><script src=/js/main.f2979a93a325fecf9605263bd141398a311c8e23388ed7dcff74f92f7e632866.js integrity="sha256-8peak6Ml/s+WBSY70UE5ijEcjiM4jtfc/3T5L35jKGY=" crossorigin=anonymous></script><link rel=icon type=image/png sizes=64x64 href=/favicon.png><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js></script><script>hljs.highlightAll()</script></head><body><header><div id=topbar><div id=logo><a href=https://hiquality.dev/><img src=/logo.svg alt="hiquality.dev logo - blue circle with handwritten 'hi!'"></a><h1>hiquality.dev</h1></div><div id=navigation><nav><ul><li><a href=/>Home</a></li><li><a aria-current=true class=ancestor href=/posts/>Posts</a></li><li><a href=/about/>About</a></li></ul></nav></div><button type=button data-theme-toggle aria-label="Change to light theme"><svg><use href="/icons/icons.svg#theme-toggle"/></svg></button></div></header><main><article><h1><a href=/posts/automated-acceptance-tests-with-scalatest/>Automated Acceptance Tests with ScalaTest</a></h1><p class=published_at><time datetime=2024-02-20T19:45:00+01:00>February 20, 2024</time>
-|
-Reading time: 4 minutes.</p><div id=terms><ul><li><a href=/tags/testing/>Testing</a></li><li><a href=/tags/scala/>Scala</a></li><li><a href=/tags/functional/>Functional</a></li><li><a href=/tags/bdd/>BDD</a></li><li><a href=/tags/tutorial/>Tutorial</a></li></ul></div><div id=feature-image><img alt src=/posts/automated-acceptance-tests-with-scalatest/cover.jpg></div><p>Almost seven years ago I&rsquo;ve started a new and unexpected journey. Back then
+<!DOCTYPE html data-theme="light">
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Automated Acceptance Tests with ScalaTest | hiquality.dev</title>
+
+      <link rel="stylesheet" href="/css/main.min.d8efa8264547c50eb7bbf8edea765adbec1f592d011fcb9f640e80bf3be2caa1.css" integrity="sha256-2O&#43;oJkVHxQ63u/jt6nZa2&#43;wfWS0BH8ufZA6AvzviyqE=" crossorigin="anonymous">
+
+
+      <script src="/js/main.f2979a93a325fecf9605263bd141398a311c8e23388ed7dcff74f92f7e632866.js" integrity="sha256-8peak6Ml/s&#43;WBSY70UE5ijEcjiM4jtfc/3T5L35jKGY=" crossorigin="anonymous"></script>
+
+
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+</head>
+<body>
+  <header>
+    <div id="topbar">
+<div id="logo">
+  <a href="https://hiquality.dev/">
+    <img src="/logo.svg" alt="hiquality.dev logo - blue circle with handwritten 'hi!'"/>
+  </a>
+<h1>hiquality.dev</h1>
+</div>    
+
+<div id="navigation">
+  <nav>
+    <ul>
+    <li>
+      <a href="/">Home</a>
+    </li>
+    <li>
+      <a aria-current="true" class="ancestor" href="/posts/">Posts</a>
+    </li>
+    <li>
+      <a href="/about/">About</a>
+    </li>
+    </ul>
+  </nav>
+</div>
+
+<button type="button" data-theme-toggle aria-label="Change to light theme">
+  <svg>
+    <use href="/icons/icons.svg#theme-toggle"></use>
+  </svg>
+</button>
+</div>
+  </header>
+  <main>
+    
+  <article><h1><a href="/posts/automated-acceptance-tests-with-scalatest/">Automated Acceptance Tests with ScalaTest</a></h1>
+
+<p class="published_at">
+    
+    
+    <time datetime="2024-02-20T19:45:00&#43;01:00">February 20, 2024</time>
+    | 
+    
+    Reading time: 4 minutes.
+</p>
+
+
+  <div id="terms">
+    <ul>
+        <li><a href="/tags/testing/">Testing</a></li>
+        <li><a href="/tags/scala/">Scala</a></li>
+        <li><a href="/tags/functional/">Functional</a></li>
+        <li><a href="/tags/bdd/">BDD</a></li>
+        <li><a href="/tags/tutorial/">Tutorial</a></li>
+    </ul>
+  </div>
+
+
+  
+    <div id="feature-image">
+      
+      
+        <img alt="" src="/posts/automated-acceptance-tests-with-scalatest/cover.jpg" />
+      
+    </div>
+  
+  <p>Almost seven years ago I&rsquo;ve started a new and unexpected journey. Back then
 I had some experience with test automation in Python and Java and I&rsquo;ve joined
 the team working on the backend application written in Scala. It was my first
 experience with functional programming so I was wondering if
 it would not be hard to learn and maintain the test suite written in this
 new for me language. It turned out that it&rsquo;s not and the work with Scala
-gave me a lot of fun.</p><p>In this first episode of the blog post series I would like to show how
+gave me a lot of fun.</p>
+<p>In this first episode of the blog post series I would like to show how
 to start testing a REST API using ScalaTest and how to use some more
-advanced features of this one of the most popular Scala-based test frameworks.</p><h2 id=setting-up-scalatest-test-project>Setting up ScalaTest test project.</h2><p>Scala is a JVM based language so we will need to have JDK installed (I usually use
-the latest LTS release &ndash; 21 at the time of writing this article).</p><p>We would also use <a href=https://www.scala-sbt.org/>SBT</a> &ndash; the most popular build tools
-for Scala projects.</p><p>After installing both we can start a new ScalaTest project from scratch
-using following in your command line:</p><p><code>sbt new scala/scalatest-example.g8</code> <sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></p><p>You can also clone the GitHub repository with the code presented
-in this article: <a href=https://github.com/kkomorowski/scalatest-getting-started>https://github.com/kkomorowski/scalatest-getting-started</a></p><h2 id=some-gherkin-please>Some Gherkin, please!</h2><p>The clue of the Behavior-Driven Development are the well defined test
+advanced features of this one of the most popular Scala-based test frameworks.</p>
+<h2 id="setting-up-scalatest-test-project">Setting up ScalaTest test project.</h2>
+<p>Scala is a JVM based language so we will need to have JDK installed (I usually use
+the latest LTS release &ndash; 21 at the time of writing this article).</p>
+<p>We would also use <a href="https://www.scala-sbt.org/">SBT</a> &ndash; the most popular build tools
+for Scala projects.</p>
+<p>After installing both we can start a new ScalaTest project from scratch
+using following in your command line:</p>
+<p><code>sbt new scala/scalatest-example.g8</code> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>You can also clone the GitHub repository with the code presented
+in this article: <a href="https://github.com/kkomorowski/scalatest-getting-started">https://github.com/kkomorowski/scalatest-getting-started</a></p>
+<h2 id="some-gherkin-please">Some Gherkin, please!</h2>
+<p>The clue of the Behavior-Driven Development are the well defined test
 scenarios that might be used as the documentation of the system. ScalaTest
 is a very versatile test framework that gives the possibility of
-choosing the test style that best suites your needs.</p><p>In the example we&rsquo;ll use <code>FeatureSpec</code> and <code>GivenWhenThen</code> from ScalaTest
-to describe the scenarios of our tested feature using Gherkin-like DSL:</p><pre><code class=language-scala>class GitHubUserSpec extends AnyFeatureSpec with GivenWhenThen:
+choosing the test style that best suites your needs.</p>
+<p>In the example we&rsquo;ll use <code>FeatureSpec</code> and <code>GivenWhenThen</code> from ScalaTest
+to describe the scenarios of our tested feature using Gherkin-like DSL:</p>
+<pre><code class="language-scala">class GitHubUserSpec extends AnyFeatureSpec with GivenWhenThen:
 
   Feature(&quot;GitHub User Profile&quot;):
 
@@ -29,30 +123,51 @@ to describe the scenarios of our tested feature using Gherkin-like DSL:</p><pre>
       Given(&quot;a GitHub account exists&quot;)
       When(&quot;I send a request to the /user/{username} API endpoint&quot;)
       Then(&quot;I get the response with HTTP status code 200&quot;)
-</code></pre><p>NOTE: The examples use the Scala 3
-<a href=https://docs.scala-lang.org/scala3/reference/other-new-features/indentation.html>significant indentation</a>.
-This way of writing of ScalaTest scenarios even more resembles Cucumber <code>feature</code> files to me.</p><h2 id=lets-make-a-request>Let&rsquo;s make a request!</h2><p>Unlike Cucumber or JBehave our <code>Given When Then</code> steps are purely informational
+</code></pre>
+<p>NOTE: The examples use the Scala 3
+<a href="https://docs.scala-lang.org/scala3/reference/other-new-features/indentation.html">significant indentation</a>.
+This way of writing of ScalaTest scenarios even more resembles Cucumber <code>feature</code> files to me.</p>
+<h2 id="lets-make-a-request">Let&rsquo;s make a request!</h2>
+<p>Unlike Cucumber or JBehave our <code>Given When Then</code> steps are purely informational
 and does not bring any implementation of the test behind. We need to implement
-the test code ourself.</p><p>Let&rsquo;s try to make a first request. Scala is highly compatible with Java
+the test code ourself.</p>
+<p>Let&rsquo;s try to make a first request. Scala is highly compatible with Java
 so we could use one of the well known API testing libraries like RestAssured but here I would like to
-show you <a href=https://sttp.softwaremill.com/en/stable/>sttp</a> &ndash; a Scala-based library that
-will send the HTTP request for us.</p><p>Simply add this line to your <code>build.sbt</code> project file:</p><pre><code class=language-scala>libraryDependencies += &quot;com.softwaremill.sttp.client3&quot; %% &quot;core&quot; % &quot;3.9.3&quot;
-</code></pre><p>and import to easily use Java HTTP client from Scala code:</p><pre><code class=language-scala>import sttp.client3.quick.*
-</code></pre><p>Now we can fill up our scenario with the code:</p><pre><code class=language-scala>Scenario(&quot;GitHub User Exists&quot;):
+show you <a href="https://sttp.softwaremill.com/en/stable/">sttp</a> &ndash; a Scala-based library that
+will send the HTTP request for us.</p>
+<p>Simply add this line to your <code>build.sbt</code> project file:</p>
+<pre><code class="language-scala">libraryDependencies += &quot;com.softwaremill.sttp.client3&quot; %% &quot;core&quot; % &quot;3.9.3&quot;
+</code></pre>
+<p>and import to easily use Java HTTP client from Scala code:</p>
+<pre><code class="language-scala">import sttp.client3.quick.*
+</code></pre>
+<p id="example-send-request">Now we can fill up our scenario with the code:</p>
+<pre><code class="language-scala">Scenario(&quot;GitHub User Exists&quot;):
   Given(&quot;a GitHub account exists&quot;)
   val username = &quot;kkomorowski&quot;
   When(&quot;I send a request to the /user/{username} API endpoint&quot;)
   val request = quickRequest.get(uri&quot;https://api.github.com/users/$username&quot;)
   val response = simpleHttpClient.send(request)
   Then(&quot;I get the response with HTTP status code 200&quot;)
-</code></pre><h2 id=-and-assert-on-the-response>&mldr; and assert on the response.</h2><p>The only thing left is to assert on the response from the API.
-We can use ScalaTest matchers to have the code more readable:</p><p>Add <code>org.scalatest.matchers.must.Matchers</code> to the imports and extend your
+</code></pre>
+<h2 id="-and-assert-on-the-response">&hellip; and assert on the response.</h2>
+<p>The only thing left is to assert on the response from the API.
+We can use ScalaTest matchers to have the code more readable:</p>
+<p>Add <code>org.scalatest.matchers.must.Matchers</code> to the imports and extend your
 test class with <code>Matchers</code> trait. Now we can write the assertion
-the following way:</p><pre><code class=language-scala>  response.code mustBe StatusCode(200)
-</code></pre><h2 id=running-your-first-tests>Running your first tests</h2><p>The test is ready to be run. You can run it easily from the IDE (IntelliJ IDEA
-is able to do it when equipped with Scala plugin. VSCode needs Metals extension).</p><p>To run the tests from the command line we can use <code>sbt</code>, just write:</p><pre><code>sbt test
-</code></pre><p>in your command line.</p><p>After few lines of the logs from the build stage you should see a simple
-text base test report similar to this one:</p><pre><code class=language-markdown>[info] GitHubUserSpec:
+the following way:</p>
+<pre><code class="language-scala">  response.code mustBe StatusCode(200)
+</code></pre>
+<h2 id="running-your-first-tests">Running your first tests</h2>
+<p>The test is ready to be run. You can run it easily from the IDE (IntelliJ IDEA
+is able to do it when equipped with Scala plugin. VSCode needs Metals extension).</p>
+<p>To run the tests from the command line we can use <code>sbt</code>, just write:</p>
+<pre><code>sbt test
+</code></pre>
+<p>in your command line.</p>
+<p>After few lines of the logs from the build stage you should see a simple
+text base test report similar to this one:</p>
+<pre><code class="language-markdown">[info] GitHubUserSpec:
 [info] Feature: GitHub User Profile
 [info]   As a programmer 
 [info]   I want to check the user profile presence 
@@ -66,13 +181,51 @@ text base test report similar to this one:</p><pre><code class=language-markdown
 [info] Suites: completed 1, aborted 0
 [info] Tests: succeeded 1, failed 0, canceled 0, ignored 0, pending 0
 [info] All tests passed.
-</code></pre><h2 id=end-words>End words</h2><p>In this article we&rsquo;ve written our acceptance tests of the REST API using ScalaTest.
+</code></pre>
+<h2 id="end-words">End words</h2>
+<p>In this article we&rsquo;ve written our acceptance tests of the REST API using ScalaTest.
 Using <code>FeatureSpec</code> and <code>GivenWhenThen</code> trait we&rsquo;ve been able describe
 the test scenarios and add the logic code of the test using STTP library
-to make the HTTP request and add a simple assertion on the result.</p><p>I hope that this short guide gave you an inspiration to try ScalaTest
+to make the HTTP request and add a simple assertion on the result.</p>
+<p>I hope that this short guide gave you an inspiration to try ScalaTest
 in your testing project and convinced you that it might not be that
-hard to learn.</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>You can find an official guide on the Scala Language website:
-<a href=https://docs.scala-lang.org/getting-started/sbt-track/testing-scala-with-sbt-on-the-command-line.html>https://docs.scala-lang.org/getting-started/sbt-track/testing-scala-with-sbt-on-the-command-line.html</a>.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></article></main><footer><div id=icons><a href=https://mastodon.social/@kkomorowski title="My Mastodon profile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24zM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036c-.01-.003-.019.0-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.016-.018zm.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092c.012.004.023.0.029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022zm-.715.002a.023.023.0 00-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01-.184-.092z"/><path fill="currentcolor" d="M16.431 2.415a5.109 5.109.0 014.164 4.142c.431 2.361.528 4.682.04 7.108-.406 2.023-2.006 3.532-4.01 3.893-1.55.278-3.105.424-4.667.42.722.144 1.471.17 2.21.186l.632.012.395.002c.536.007 1.097.048 1.533.34.266.178.535.51.533.985.0.429-.231.732-.364.878-.468.513-1.19.784-1.832.994-1.042.339-2.46.6-4.06.607-3.428.016-6.644-2.263-7.478-5.75-.749-3.133-.743-6.648-.145-9.781a5.03 5.03.0 014.094-4.02 25.859 25.859.0 018.956-.016zM7.822 4.4A3.03 3.03.0 005.347 6.824c-.552 2.89-.55 6.117.125 8.942.602 2.514 2.951 4.227 5.523 4.215.234.0.462-.008.684-.02A5.862 5.862.0 018.72 18.463c-.519-.495-1.115-1.254-.791-2.014.201-.471.702-.721 1.2-.657 2.383.31 4.759.224 7.142-.204 1.223-.22 2.165-1.127 2.404-2.318.426-2.119.35-4.177-.047-6.355a3.109 3.109.0 00-2.537-2.53A23.858 23.858.0 007.822 4.4zM14 6a3 3 0 013 3v4a1 1 0 11-2 0V9a1 1 0 10-2 0v3a1 1 0 11-2 0V9A1 1 0 109 9v4a1 1 0 11-2 0V9a3 3 0 015-2.236A2.989 2.989.0 0114 6z"/></g></svg>
-</a><a href=https://github.com/kkomorowski title="My GitHub profile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24zM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023.0.029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022zm-.715.002a.023.023.0 00-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092z"/><path fill="currentcolor" d="M6.315 6.176c-.25-.638-.24-1.367-.129-2.034a6.77 6.77.0 012.12 1.07c.28.214.647.283.989.18A9.343 9.343.0 0112 5c.961.0 1.874.14 2.703.391.342.104.709.034.988-.18a6.77 6.77.0 012.119-1.07c.111.667.12 1.396-.128 2.033-.15.384-.075.826.208 1.14C18.614 8.117 19 9.04 19 10c0 2.114-1.97 4.187-5.134 4.818-.792.158-1.101 1.155-.495 1.726.389.366.629.882.629 1.456v3a1 1 0 002 0v-3c0-.57-.12-1.112-.334-1.603C18.683 15.35 21 12.993 21 10c0-1.347-.484-2.585-1.287-3.622.21-.82.191-1.646.111-2.28-.071-.568-.17-1.312-.57-1.756-.595-.659-1.58-.271-2.28-.032a9.081 9.081.0 00-2.125 1.045A11.432 11.432.0 0012 3c-.994.0-1.953.125-2.851.356A9.08 9.08.0 007.024 2.311c-.7-.24-1.686-.628-2.281.031-.408.452-.493 1.137-.566 1.719l-.005.038c-.08.635-.098 1.462.112 2.283C3.484 7.418 3 8.654 3 10c0 2.992 2.317 5.35 5.334 6.397A3.986 3.986.0 008 17.98l-.168.034c-.717.099-1.176.01-1.488-.122-.76-.322-1.152-1.133-1.63-1.753-.298-.385-.732-.866-1.398-1.088a1 1 0 00-.632 1.898c.558.186.944 1.142 1.298 1.566.373.448.869.916 1.58 1.218.682.29 1.483.393 2.438.276V21a1 1 0 002 0v-3c0-.574.24-1.09.629-1.456.607-.572.297-1.568-.495-1.726C6.969 14.187 5 12.114 5 10c0-.958.385-1.881 1.108-2.684.283-.314.357-.756.207-1.14z"/></g></svg>
-</a><a href=https://www.linkedin.com/in/krzysztof-komorowski-4194155 title="My LinkedIn profile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24zM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023.0.029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022zm-.715.002a.023.023.0 00-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092z"/><path fill="currentcolor" d="M18 3a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6a3 3 0 013-3h12zm0 2H6A1 1 0 005 6v12a1 1 0 001 1h12a1 1 0 001-1V6a1 1 0 00-1-1zM8 10a1 1 0 01.993.883L9 11v5a1 1 0 01-1.993.117L7 16v-5a1 1 0 011-1zm3-1a1 1 0 01.984.821 5.82 5.82.0 01.623-.313c.667-.285 1.666-.442 2.568-.159.473.15.948.43 1.3.907.315.425.485.942.519 1.523L17 12v4a1 1 0 01-1.993.117L15 16v-4c0-.33-.08-.484-.132-.555a.548.548.0 00-.293-.188c-.348-.11-.849-.052-1.182.09-.5.214-.958.55-1.27.861L12 12.34V16a1 1 0 01-1.993.117L10 16v-6a1 1 0 011-1zM8 7a1 1 0 110 2 1 1 0 010-2z"/></g></svg>
-</a><a href=https://hiquality.dev/index.xml title="Subscribe RSS Feed"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24zM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036c-.01-.003-.019.0-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.016-.018zm.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092c.012.004.023.0.029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022zm-.715.002a.023.023.0 00-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01-.184-.092z"/><path fill="currentcolor" d="M18 3a3 3 0 012.995 2.824L21 6v12a3 3 0 01-2.824 2.995L18 21H6a3 3 0 01-2.995-2.824L3 18V6a3 3 0 012.824-2.995L6 3h12zm0 2H6a1 1 0 00-.993.883L5 6v12a1 1 0 00.883.993L6 19h12a1 1 0 00.993-.883L19 18V6a1 1 0 00-.883-.993L18 5zm-9.5 9a1.5 1.5.0 110 3 1.5 1.5.0 010-3zM8 10.5a5.5 5.5.0 015.5 5.5 1 1 0 11-2 0A3.5 3.5.0 008 12.5a1 1 0 110-2zM8.5 7a8.5 8.5.0 018.481 9.066 1 1 0 11-1.995-.132 6.5 6.5.0 00-6.92-6.92 1 1 0 11-.132-1.995C8.121 7.006 8.31 7 8.5 7z"/></g></svg></a></div><p>&copy; 2024 Krzysztof Komorowski. This work is published under <a href=https://creativecommons.org/licenses/by/4.0/deed>CC BY 4.0 licence</a>.</p></footer></body><script src=/js/theme-toggle.js></script></html>
+hard to learn.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>You can find an official guide on the Scala Language website:
+<a href="https://docs.scala-lang.org/getting-started/sbt-track/testing-scala-with-sbt-on-the-command-line.html">https://docs.scala-lang.org/getting-started/sbt-track/testing-scala-with-sbt-on-the-command-line.html</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+  
+  </article>
+
+  </main>
+  <footer>
+    <div id="icons">
+    <a href="https://mastodon.social/@kkomorowski" title="My Mastodon profile">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M16.431 2.415a5.109 5.109 0 0 1 4.164 4.142c.431 2.361.528 4.682.04 7.108c-.406 2.023-2.006 3.532-4.01 3.893c-1.55.278-3.105.424-4.667.42c.722.144 1.471.17 2.21.186l.632.012l.395.002c.536.007 1.097.048 1.533.34c.266.178.535.51.533.985c0 .429-.231.732-.364.878c-.468.513-1.19.784-1.832.994c-1.042.339-2.46.6-4.06.607c-3.428.016-6.644-2.263-7.478-5.75c-.749-3.133-.743-6.648-.145-9.781a5.03 5.03 0 0 1 4.094-4.02a25.859 25.859 0 0 1 8.956-.016ZM7.822 4.4a3.03 3.03 0 0 0-2.475 2.424c-.552 2.89-.55 6.117.125 8.942c.602 2.514 2.951 4.227 5.523 4.215c.234 0 .462-.008.684-.02a5.862 5.862 0 0 1-2.959-1.498c-.519-.495-1.115-1.254-.791-2.014c.201-.471.702-.721 1.2-.657c2.383.31 4.759.224 7.142-.204c1.223-.22 2.165-1.127 2.404-2.318c.426-2.119.35-4.177-.047-6.355a3.109 3.109 0 0 0-2.537-2.53a23.858 23.858 0 0 0-8.269.015ZM14 6a3 3 0 0 1 3 3v4a1 1 0 1 1-2 0V9a1 1 0 1 0-2 0v3a1 1 0 1 1-2 0V9a1 1 0 1 0-2 0v4a1 1 0 1 1-2 0V9a3 3 0 0 1 5-2.236A2.989 2.989 0 0 1 14 6Z"/></g></svg>
+    </a>
+    <a href="https://github.com/kkomorowski" title="My GitHub profile">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M6.315 6.176c-.25-.638-.24-1.367-.129-2.034a6.77 6.77 0 0 1 2.12 1.07c.28.214.647.283.989.18A9.343 9.343 0 0 1 12 5c.961 0 1.874.14 2.703.391c.342.104.709.034.988-.18a6.77 6.77 0 0 1 2.119-1.07c.111.667.12 1.396-.128 2.033c-.15.384-.075.826.208 1.14C18.614 8.117 19 9.04 19 10c0 2.114-1.97 4.187-5.134 4.818c-.792.158-1.101 1.155-.495 1.726c.389.366.629.882.629 1.456v3a1 1 0 0 0 2 0v-3c0-.57-.12-1.112-.334-1.603C18.683 15.35 21 12.993 21 10c0-1.347-.484-2.585-1.287-3.622c.21-.82.191-1.646.111-2.28c-.071-.568-.17-1.312-.57-1.756c-.595-.659-1.58-.271-2.28-.032a9.081 9.081 0 0 0-2.125 1.045A11.432 11.432 0 0 0 12 3c-.994 0-1.953.125-2.851.356a9.08 9.08 0 0 0-2.125-1.045c-.7-.24-1.686-.628-2.281.031c-.408.452-.493 1.137-.566 1.719l-.005.038c-.08.635-.098 1.462.112 2.283C3.484 7.418 3 8.654 3 10c0 2.992 2.317 5.35 5.334 6.397A3.986 3.986 0 0 0 8 17.98l-.168.034c-.717.099-1.176.01-1.488-.122c-.76-.322-1.152-1.133-1.63-1.753c-.298-.385-.732-.866-1.398-1.088a1 1 0 0 0-.632 1.898c.558.186.944 1.142 1.298 1.566c.373.448.869.916 1.58 1.218c.682.29 1.483.393 2.438.276V21a1 1 0 0 0 2 0v-3c0-.574.24-1.09.629-1.456c.607-.572.297-1.568-.495-1.726C6.969 14.187 5 12.114 5 10c0-.958.385-1.881 1.108-2.684c.283-.314.357-.756.207-1.14Z"/></g></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/krzysztof-komorowski-4194155" title="My LinkedIn profile">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M18 3a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3h12Zm0 2H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1ZM8 10a1 1 0 0 1 .993.883L9 11v5a1 1 0 0 1-1.993.117L7 16v-5a1 1 0 0 1 1-1Zm3-1a1 1 0 0 1 .984.821a5.82 5.82 0 0 1 .623-.313c.667-.285 1.666-.442 2.568-.159c.473.15.948.43 1.3.907c.315.425.485.942.519 1.523L17 12v4a1 1 0 0 1-1.993.117L15 16v-4c0-.33-.08-.484-.132-.555a.548.548 0 0 0-.293-.188c-.348-.11-.849-.052-1.182.09c-.5.214-.958.55-1.27.861L12 12.34V16a1 1 0 0 1-1.993.117L10 16v-6a1 1 0 0 1 1-1ZM8 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2Z"/></g></svg>
+    </a>
+    <a href="https://hiquality.dev/index.xml" title="Subscribe RSS Feed">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <g fill="none">
+            <path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/>
+            <path fill="currentColor" d="M18 3a3 3 0 0 1 2.995 2.824L21 6v12a3 3 0 0 1-2.824 2.995L18 21H6a3 3 0 0 1-2.995-2.824L3 18V6a3 3 0 0 1 2.824-2.995L6 3h12Zm0 2H6a1 1 0 0 0-.993.883L5 6v12a1 1 0 0 0 .883.993L6 19h12a1 1 0 0 0 .993-.883L19 18V6a1 1 0 0 0-.883-.993L18 5Zm-9.5 9a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3ZM8 10.5a5.5 5.5 0 0 1 5.5 5.5a1 1 0 1 1-2 0A3.5 3.5 0 0 0 8 12.5a1 1 0 1 1 0-2ZM8.5 7a8.5 8.5 0 0 1 8.481 9.066a1 1 0 1 1-1.995-.132a6.5 6.5 0 0 0-6.92-6.92a1 1 0 1 1-.132-1.995C8.121 7.006 8.31 7 8.5 7Z"/>
+        </g>
+    </svg>
+    </a>
+</div>
+<p>&copy; 2024 Krzysztof Komorowski. This work is published under <a href="https://creativecommons.org/licenses/by/4.0/deed">CC BY 4.0 licence</a>.</p>
+
+  </footer>
+</body>
+<script src="/js/theme-toggle.js"></script>
+</html>

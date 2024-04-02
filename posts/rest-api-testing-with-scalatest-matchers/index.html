@@ -3,14 +3,13 @@
 <head>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>Tags | hiquality.dev</title>
+<title>REST API Testing with Scalatest - Matchers | hiquality.dev</title>
 
       <link rel="stylesheet" href="/css/main.min.d8efa8264547c50eb7bbf8edea765adbec1f592d011fcb9f640e80bf3be2caa1.css" integrity="sha256-2O&#43;oJkVHxQ63u/jt6nZa2&#43;wfWS0BH8ufZA6AvzviyqE=" crossorigin="anonymous">
 
 
       <script src="/js/main.f2979a93a325fecf9605263bd141398a311c8e23388ed7dcff74f92f7e632866.js" integrity="sha256-8peak6Ml/s&#43;WBSY70UE5ijEcjiM4jtfc/3T5L35jKGY=" crossorigin="anonymous"></script>
 
-<link rel="alternate" type="application/rss+xml" href="https://hiquality.dev/tags/index.xml" title="hiquality.dev">
 
 <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -36,7 +35,7 @@
       <a href="/">Home</a>
     </li>
     <li>
-      <a href="/posts/">Posts</a>
+      <a aria-current="true" class="ancestor" href="/posts/">Posts</a>
     </li>
     <li>
       <a href="/about/">About</a>
@@ -54,99 +53,142 @@
   </header>
   <main>
     
-  <div class="list_title"><h1>Tags</h1></div>
+  <article><h1><a href="/posts/rest-api-testing-with-scalatest-matchers/">REST API Testing with Scalatest - Matchers</a></h1>
+
+<p class="published_at">
+    
+    
+    <time datetime="2024-04-02T21:00:00&#43;02:00">April 2, 2024</time>
+    | 
+    
+    Reading time: 4 minutes.
+</p>
+
+
+  <div id="terms">
+    <ul>
+        <li><a href="/tags/testing/">Testing</a></li>
+        <li><a href="/tags/scala/">Scala</a></li>
+        <li><a href="/tags/bdd/">BDD</a></li>
+        <li><a href="/tags/tutorial/">Tutorial</a></li>
+    </ul>
+  </div>
+
+
   
-  <article><h1><a href="/tags/bdd/">BDD</a></h1>
-
-<p class="published_at">
-    
-    
-    <time datetime="2024-04-02T21:00:00&#43;02:00">April 2, 2024</time>
-    | 
-    
-    Reading time: 0 minute.
-</p>
-
-
-
-<div class="home-grid">
-    
-    <div></div>
-</div>
-</article>
-  <article><h1><a href="/tags/scala/">Scala</a></h1>
-
-<p class="published_at">
-    
-    
-    <time datetime="2024-04-02T21:00:00&#43;02:00">April 2, 2024</time>
-    | 
-    
-    Reading time: 0 minute.
-</p>
-
-
-
-<div class="home-grid">
-    
-    <div></div>
-</div>
-</article>
-  <article><h1><a href="/tags/testing/">Testing</a></h1>
-
-<p class="published_at">
-    
-    
-    <time datetime="2024-04-02T21:00:00&#43;02:00">April 2, 2024</time>
-    | 
-    
-    Reading time: 0 minute.
-</p>
-
-
-
-<div class="home-grid">
-    
-    <div></div>
-</div>
-</article>
-  <article><h1><a href="/tags/tutorial/">Tutorial</a></h1>
-
-<p class="published_at">
-    
-    
-    <time datetime="2024-04-02T21:00:00&#43;02:00">April 2, 2024</time>
-    | 
-    
-    Reading time: 0 minute.
-</p>
-
-
-
-<div class="home-grid">
-    
-    <div></div>
-</div>
-</article>
-  <article><h1><a href="/tags/functional/">Functional</a></h1>
-
-<p class="published_at">
-    
-    
-    <time datetime="2024-02-20T19:45:00&#43;01:00">February 20, 2024</time>
-    | 
-    
-    Reading time: 0 minute.
-</p>
-
-
-
-<div class="home-grid">
-    
-    <div></div>
-</div>
-</article>
+    <div id="feature-image">
+      
+      
+        <img alt="" src="https://images.unsplash.com/photo-1622227920933-7fcd7377703f?q=80&amp;w=1000&amp;h=500&amp;fit=crop" />
+      
+    </div>
   
+  <p>In the <a href="https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/">previous post</a>
+I&rsquo;ve described how to start with test automation of the REST API using ScalaTest.
+Today I would like to show some more examples of using ScalaTest matchers - a smart
+way of writing more readable assertions.</p>
+<!-- more -->
+<h2 id="string-matchers">String matchers</h2>
+<p>Let&rsquo;s get back for a while to our
+<a href="https://hiquality.dev/posts/automated-acceptance-tests-with-scalatest/#example-send-request">previous code example</a>.
+Our test seems still a bit unfinished as we have no assertions on the response body.
+ScalaTest has few methods defined called matchers which will give us nice looking assertions
+on the different data types.</p>
+<h3 id="startwith-endwith-include">startWith, endWith, include</h3>
+<p>First, we&rsquo;ll check simple assertions working on Strings:</p>
+<p>The response body must contain the blog name:</p>
+<pre><code class="language-scala">response.body must include(&quot;https://hiquality.dev&quot;)
+</code></pre>
+<p>The body must also start and end with braces:</p>
+<pre><code class="language-scala">response.body must startWith(&quot;{&quot;)
+response.body must endWith(&quot;}&quot;)
+</code></pre>
+<h3 id="regular-expressions">Regular expressions</h3>
+<p>We can also check if the response body matches a regular expression:</p>
+<pre><code class="language-scala">response.body must fullyMatch regex &quot;&quot;&quot;.*&quot;blog&quot;:&quot;(https://)?hiquality\.dev&quot;.*&quot;&quot;&quot;
+</code></pre>
+<h2 id="parsing-a-response-to-json">Parsing a response to JSON</h2>
+<p>Checking the response body as string might be a bit too verbose.
+Of course there is a better way to do it: we&rsquo;ll parse the response body to a Scala object.</p>
+<p>In this example I&rsquo;ve chosen <a href="%22https://circe.github.io/circe/%22">Circe</a> -
+one of the most popular JSON libraries for Scala.</p>
+<p>Let&rsquo;s add some dependencies to <code>build.sbt</code>:</p>
+<pre><code class="language-scala">val circeVersion = &quot;0.14.6&quot;
+libraryDependencies += &quot;io.circe&quot; %% &quot;circe-core&quot; % circeVersion
+libraryDependencies += &quot;io.circe&quot; %% &quot;circe-generic&quot; % circeVersion
+libraryDependencies += &quot;io.circe&quot; %% &quot;circe-parser&quot; % circeVersion
+</code></pre>
+<p>We&rsquo;ll use also sttp&rsquo;s Circe integration:</p>
+<pre><code class="language-scala">libraryDependencies += &quot;com.softwaremill.sttp.client3&quot; %% &quot;circe&quot; % &quot;3.9.3&quot;
+</code></pre>
+<p>First we&rsquo;ll define a <code>GitHubUserProfile</code> case class:</p>
+<pre><code class="language-scala">case class GitHubUserProfile(
+    login: String,
+    id: Int,
+    name: String,
+    company: Option[String],
+    blog: String
+)
+</code></pre>
+<p>and pass it as a type parameter to the decoder in the request definition:</p>
+<pre><code class="language-scala">val request = quickRequest
+    .get(uri&quot;https://api.github.com/users/kkomorowski&quot;)
+    .response(asJson[GitHubUserProfile])
+</code></pre>
+<p>In the previous example the response body had type <code>String</code>.
+This time it is different and - the client returns
+<code>Either[ResponseException[String, circe.Error], GitHubUserProfile]</code>.
+If parsing the response body fails, we&rsquo;ll get an exception on the
+left side of the <code>Either</code>, otherwise we&rsquo;ll get the parsed object on the right side.</p>
+<p>We can now check if the response was successful and safely extract the value from the <code>Either</code>
+and assert on the fields of the object:</p>
+<pre><code class="language-scala">response.body.isRight must be(true)
+val user = response.body.toOption.get
+user.blog must be(&quot;https://hiquality.dev&quot;)
+</code></pre>
+<p>The problem with this code snippet is when the first assertion fails, we&rsquo;ll get quite
+unpleasant error on the logs:</p>
+<pre><code class="language-text">false was not equal to true
+ScalaTestFailureLocation: GitHubUserSpec at (GitHubUserSpec.scala:49)
+Expected :true
+Actual   :false
+</code></pre>
+<p>Except for the file and line number in the stack trace this gives not much
+clue what was the reason for failure. If we skip the assertion here, we could
+end up in even more cumbersome <code>NoSuchElementException</code>.</p>
+<h2 id="eithervalues-trait">EitherValues trait</h2>
+<p>Fortunately ScalaTest provides a handy <code>EitherValues</code> trait that makes
+it easier to work with <code>Either</code> values.</p>
+<p>Let&rsquo;s import it and use it in our test:</p>
+<pre><code class="language-scala">import org.scalatest.EitherValues
+</code></pre>
+<p>and mix-in it by extending our test class.</p>
+<p>We can now write our previous assertion the following way:</p>
+<pre><code class="language-scala">val user = response.body.value
+user.blog must be(&quot;https://hiquality.dev&quot;)
+</code></pre>
+<p>The <code>value</code> implicit conversion is used to extract the value
+from the <code>Either</code> and to assert on it.</p>
+<p>We can also assert on the left side of the <code>Either</code> if the parsing of the response body fails:</p>
+<pre><code class="language-scala">response.body.left.value mustBe a [ResponseException[_, _]]
+</code></pre>
+<p>In the example above we&rsquo;ve asserted not on the value but on the type of the left side of the <code>Either</code>.</p>
+<p>Similar traits as <code>EitherValues</code> exist for <code>Option</code> and <code>Try</code> types.</p>
+<h2 id="matcher-negations">Matcher negations</h2>
+<p>We can also easily negate the matcher by using a <code>not</code> word in our matcher.</p>
+<pre><code class="language-scala">user.blog must not be empty
+</code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this blog post we&rsquo;ve learned how to parse an HTTP response body to
+Scala case class using Circe. We&rsquo;ve tried different ways of writing
+the assertions in the test and have more readable error messages
+for the failed assertions thanks to <code>EitherValue</code> trait provided by
+ScalaTest.</p>
+<p>Thanks for reading this article and see you in the next episode
+of ScalaTest series.</p>
+
+  
+  </article>
 
   </main>
   <footer>
