@@ -1,0 +1,30 @@
+baseURL = 'https://hiquality.dev/'
+languageCode = 'en-us'
+title = 'hiquality.dev'
+theme = 'hiquality-dev-theme'
+minifyHTML = true
+
+[markup]
+  [markup.highlight]
+    codeFences = false
+
+[markup.goldmark.renderer]
+unsafe=true
+
+[markup.goldmark.parser.attribute]
+block = true
+title = true
+
+[menu]
+[[menu.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+[[menu.main]]
+    name = 'Posts'
+    pageRef = '/posts'
+    weight = 20
+[[menu.main]]
+    name = 'About'
+    pageRef = '/about'
+    weight = 30

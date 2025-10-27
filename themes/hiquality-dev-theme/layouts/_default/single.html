@@ -1,0 +1,18 @@
+{{ define "main" }}
+  <article>
+  {{- partial "main/article_header.html" . }}
+
+  {{ if .Params.image }}
+    <div class="feature-image">
+      {{ $alttext := .Params.alttext }}
+      {{ with .Resources.GetMatch .Params.image }}
+        <img alt="{{ $alttext }}" src="{{ .RelPermalink }}" />
+      {{ else }}
+        <img alt="{{ $alttext }}" src="{{ .Params.image }}" />
+      {{ end }}
+    </div>
+  {{ end }}
+  {{ .Content }}
+  
+  </article>
+{{ end }}

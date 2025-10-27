@@ -1,0 +1,19 @@
+name = 'hiquality Hugo Theme'
+license = 'MIT'
+licenselink = 'https://github.com/kkomorowski/hiquality-hugo-theme/LICENSE'
+description = 'A simple Hugo theme'
+
+# The home page of the theme, where the source can be found
+homepage = 'https://github.com/kkomorowski/hiquality-hugo-theme'
+
+# If you have a running demo of the theme
+demosite = 'https://kkomorowski.github.io/hiquality-hugo-demo'
+
+# Taxonomy terms
+tags = ['blog', 'company']
+features = ['some', 'awesome', 'features']
+
+# If the theme has a single author
+[author]
+  name = 'Krzysztof Komorowski'
+  homepage = 'https://hiquality.dev/'

@@ -1,0 +1,7 @@
+{{ define "main" }}
+  <div class="list_title"><h1>{{ .Title }}</h1></div>
+  {{ .Content }}
+  {{ range .Pages }}
+    {{- partial "main/article_summary.html" . }}
+  {{ end }}
+{{ end }}

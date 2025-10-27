@@ -1,0 +1,16 @@
+<article>
+{{- partial "main/article_header.html" . }}
+<div class="home-grid">
+    {{ if .Params.image }}
+    <div class="feature-image">
+        {{ $alttext := .Params.alttext }}
+        {{ with .Resources.GetMatch .Params.image }}
+        <img alt="{{ $alttext }}" src="{{ .RelPermalink }}" />
+        {{ else }}
+        <img alt="{{ $alttext }}" src="{{ .Params.image }}" />
+        {{ end }}
+    </div>
+    {{ end }}
+    <p>{{ .Summary }}</p>
+</div>
+</article>

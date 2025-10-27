@@ -1,0 +1,6 @@
+{{ define "main" }}
+  <article>{{ .Content }}</article>
+  {{ range site.RegularPages }}
+  {{- partial "main/article_summary.html" . }}
+  {{ end }}
+{{ end }}

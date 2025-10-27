@@ -1,0 +1,14 @@
+<div id="topbar">
+<div id="logo">
+  <a href="{{ .Site.BaseURL }}">
+    <img src="/logo.svg" alt="hiquality.dev logo - blue circle with handwritten 'hi!'"/>
+  </a>
+<h1>{{ site.Title }}</h1>
+</div>    
+{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+<button type="button" data-theme-toggle aria-label="Change to light theme">
+  <svg>
+    <use href="../icons/icons.svg#theme-toggle"></use>
+  </svg>
+</button>
+</div>

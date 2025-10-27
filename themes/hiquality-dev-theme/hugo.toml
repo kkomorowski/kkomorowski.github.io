@@ -1,0 +1,33 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'My New Hugo Site'
+
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = "0.116.0"
+
+[outputs]
+  home = ['html', 'rss']
+
+[services]
+  [services.rss]
+    limit = 10
+
+[menu]
+[[menu.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+[[menu.main]]
+    name = 'Posts'
+    pageRef = '/posts'
+    weight = 20
+[[menu.main]]
+    name = 'About'
+    pageRef = '/about'
+    weight = 30
+[[menu.main]]
+    name = "RSS"
+    pageRef = "/index.xml"
+    weight = 40
