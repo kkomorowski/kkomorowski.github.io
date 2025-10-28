@@ -3,6 +3,8 @@ languageCode = 'en-us'
 title = 'hiquality.dev'
 theme = 'hiquality-dev-theme'
 minifyHTML = true
+publishDir = 'docs'
+
 
 [markup]
   [markup.highlight]
