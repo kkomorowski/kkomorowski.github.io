@@ -6,9 +6,12 @@
 <h1>{{ site.Title }}</h1>
 </div>    
 {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+
+{{ $icons := resources.Get "icons/icons.svg" | fingerprint }}
+
 <button type="button" data-theme-toggle aria-label="Change to light theme">
   <svg>
-    <use href="../icons/icons.svg#theme-toggle"></use>
+    <use href="{{ $icons.Permalink }}#auto-theme"></use>
   </svg>
 </button>
 </div>
