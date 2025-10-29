@@ -48,6 +48,9 @@
   --bq-color: #fafafa;
   --bq-mark: #5299D3;
   --heading-color: #084887;
+  --table-header-bg: #5299D3;
+  --table-even-row-bg: hsla(207, 59%, 57%, 0.5);
+  --table-odd-row-bg: hsla(207, 59%, 57%, 0.25);
   --hljs-border: #eaeaea;
   --hljs-text: #383a42;
   --hljs-bg: #fafafa;
@@ -67,7 +70,10 @@
   --header-color: #282c34;
   --bq-color: #282c34;
   --bq-mark: #5299D3;
-  --heading-color: #5299D3;
+  --heading-color: #5299d3;
+  --table-header-bg: hsla(207, 59%, 57%, 0.5);
+  --table-even-row-bg: hsla(207, 59%, 57%, 0.5);
+  --table-odd-row-bg: hsla(207, 59%, 57%, 0.25);
   --hljs-border: #393f49;
   --hljs-text: #abb2bf;
   --hljs-bg: #282c34;
@@ -231,6 +237,30 @@ article a, footer a {
 
 article a:hover, footer a:hover {
   text-decoration: underline;
+}
+
+article table {
+  margin: 1em 0;
+  border-collapse: collapse;
+}
+
+article table th {
+  border: none;
+  background-color: var(--table-header-bg);
+  padding: 0.5em;
+}
+
+article table td {
+  border: none;
+  padding: 0.5em;
+}
+
+article table tr:nth-child(even) {
+  background-color: var(--table-even-row-bg);
+}
+
+article table tr:nth-child(odd) {
+  background-color: var(--table-odd-row-bg);
 }
 
 .feature-image > img {
