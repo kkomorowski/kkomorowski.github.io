@@ -5,7 +5,7 @@
   </a>
 <h1>{{ site.Title }}</h1>
 </div>    
-{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+
 
 {{ $icons := resources.Get "icons/icons.svg" | fingerprint }}
 
@@ -15,3 +15,6 @@
   </svg>
 </button>
 </div>
+
+{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+

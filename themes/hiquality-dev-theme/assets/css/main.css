@@ -12,9 +12,6 @@
     height: 48px;
     width: 48px;
   }
-  #topbar #navigation {
-    display: none;
-  }
 }	
 
 @media screen and (max-width: 430px) {
@@ -116,33 +113,29 @@ footer {
 }
 
 #topbar {
-  
   display: grid;
   grid-template-columns: 1fr 1fr 50px;
   grid-template-areas: "logo nav toggle"
 }
 
-#topbar #navigation {
+#navigation {
+  display: flex;
+  justify-content: center;
+  margin: auto;
   width: 100%;
 }
 
-#topbar #navigation nav ul {
-  display: flex;
-  justify-content: right;
-}
-
-#topbar #navigation nav ul li {
+#navigation nav ul li {
   font-weight: 700;
   text-transform: uppercase;
   display: inline-flex;
   list-style: none;
   align-items: flex-end;
   padding: 0.5em;
-  margin: 0;
-  font-size: 1.4em;
+  font-size: 1em;
 }
 
-#topbar a {
+#navigation a {
   color: var(--heading-color);
 }
 
@@ -192,7 +185,7 @@ svg#hi-logo {
   box-shadow: 2px 2px 5px black;
 }
 
-main, #navigation {
+main {
   margin: auto;
   max-width: var(--main-width);
   padding: 10px;
