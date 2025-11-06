@@ -11,7 +11,11 @@
         {{ end }}
     </div>
     {{ end }}
-    {{ .Summary | safeHTML }}
-    <a class="read-more" href="{{ .RelPermalink }}">Read more &RightArrow;</a>
+    <div class="summary">
+        {{ .Summary }}
+        {{ if .Truncated }}
+            <a class="read-more" href="{{ .RelPermalink }}">Read more &RightArrow;</a>
+        {{ end }}
+    </div>
 </div>
 </article>
