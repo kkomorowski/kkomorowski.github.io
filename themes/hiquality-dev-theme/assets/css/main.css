@@ -270,6 +270,31 @@ article table tr:nth-child(odd) {
   font-family: 'Jost', sans-serif;
 }
 
+.list_title {
+  text-align: center;
+}
+
+.other-articles {
+  list-style: none;
+  padding-left: 0;
+}
+
+.other-articles li {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.other-articles li a {
+  flex: 1;
+}
+
+.other-articles li time {
+  display: inline-block;
+  text-align: right;
+  padding-right: 1em;
+  flex: 2;
+}
+
 #terms {
   text-align: left;
   font-family: 'Jost', sans-serif;

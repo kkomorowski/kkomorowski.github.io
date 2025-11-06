@@ -1,18 +1,17 @@
 ---
-title: 'REST API Testing with Scalatest - Matchers'
+title: 'REST API Testing with ScalaTest - Matchers'
 date: 2024-04-02T21:00:00+02:00
 author: Krzysztof Komorowski
 tags: [Testing, Scala, BDD, Tutorial]
 image: https://images.unsplash.com/photo-1622227920933-7fcd7377703f?q=80&w=1000&h=500&fit=crop
 draft: false
+type: post
 ---
 
 In the [previous post]({{< ref "/posts/automated-acceptance-tests-with-scalatest/" >}})
 I've described how to start with test automation of the REST API using ScalaTest.
 Today I would like to show some more examples of using ScalaTest matchers - a smart
 way of writing more readable assertions.
-
-<!--more-->
 
 ## String matchers
 

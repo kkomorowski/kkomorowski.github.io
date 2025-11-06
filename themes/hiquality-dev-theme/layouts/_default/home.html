@@ -1,6 +1,16 @@
 {{ define "main" }}
-  <article>{{ .Content }}</article>
-  {{ range site.RegularPages }}
+  <!-- Latest Article -->
+  {{ range first 1 (where .Site.RegularPages "Type" "post") }}
   {{- partial "main/article_summary.html" . }}
   {{ end }}
+  <!-- Other Articles -->
+  <article>
+  <h1>Other articles</h1>
+  <ul class="other-articles">
+  {{ range after 1 (where .Site.RegularPages "Type" "post") }}
+    {{- partial "main/article_short.html" . }}
+  {{ end }}
+  <li><div></div><a href="{{ .Site.BaseURL }}posts/">Other posts &RightArrow;</a></li>
+  </ul>
+  </article>
 {{ end }}

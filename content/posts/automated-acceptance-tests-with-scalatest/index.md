@@ -1,10 +1,16 @@
 ---
-title: 'Automated Acceptance Tests with ScalaTest'
-date: 2024-02-20T19:45:00+01:00
-author: Krzysztof Komorowski
-tags: [Testing, Scala, Functional, BDD, Tutorial]
-image: cover.jpg
+title: "Automated Acceptance Tests with ScalaTest"
+date: "2024-02-20T19:45:00+01:00"
+author: "Krzysztof Komorowski"
+tags: 
+  - "Testing"
+  - "Scala"
+  - "Functional"
+  - "BDD"
+  - "Tutorial"
+image: "cover.jpg"
 draft: false
+type: "post"
 ---
 
 Almost seven years ago I've started a new and unexpected journey. Back then
