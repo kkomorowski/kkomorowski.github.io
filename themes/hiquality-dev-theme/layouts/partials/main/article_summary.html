@@ -11,7 +11,7 @@
         {{ end }}
     </div>
     {{ end }}
-    {{ .Summary }}
+    {{ .Summary | safeHTML }}
     <a class="read-more" href="{{ .RelPermalink }}">Read more &RightArrow;</a>
 </div>
 </article>
