@@ -21,6 +21,8 @@ Our test seems still a bit unfinished as we have no assertions on the response b
 ScalaTest has few methods defined called matchers which will give us nice looking assertions
 on the different data types.
 
+<!--more-->
+
 ### startWith, endWith, include
 
 First, we'll check simple assertions working on Strings:
