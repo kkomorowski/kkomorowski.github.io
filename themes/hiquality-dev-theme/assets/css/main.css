@@ -347,6 +347,66 @@ li {
   margin-left: 1em;
 }
 
+.admonition {
+  border-left: 10px solid;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 6px;
+  background: var(--bq-color);
+}
+
+.admonition-title {
+  font-weight: 600;
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: centre;
+  gap: .5rem;
+}
+
+/* Variants */
+.admonition.info {
+  border-color: #2a7bff;
+  background: var(--bq-color);
+}
+
+.admonition.warning {
+  border-color: #e0a100;
+  background: var(--bq-color);
+}
+
+.admonition.danger {
+  border-color: #d93025;
+  background: var(--bq-color);
+}
+
+.admonition.note {
+  border-color: #6a3fc2;
+  background: var(--bq-color);
+}
+
+/* Optional: icon-like bullets */
+.admonition-title::before {
+  content: "⚑";
+  font-size: 1.1rem;
+}
+
+.admonition.info .admonition-title::before {
+  content: "💡";
+}
+
+.admonition.warning .admonition-title::before {
+  content: "⚠️";
+}
+
+.admonition.danger .admonition-title::before {
+  content: "❗";
+}
+
+.admonition.note .admonition-title::before {
+  content: "📝";
+}
+
+
 code {
   font-size: 0.8em;
 }

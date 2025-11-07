@@ -6,7 +6,13 @@
     <time datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
     | 
     {{ $readTime := cond (gt .ReadingTime 1) "minutes" "minute" }}
-    Reading time: {{ .ReadingTime }} {{ $readTime }}.
+    Reading time: {{ .ReadingTime }} {{ $readTime }}
 </p>
 {{ end }}
 {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+
+{{ if .Draft }}<div class="admonition warning">
+  <div class="admonition-title">Draft article</div>
+  <p>This article is a draft and the content may change.</p>
+</div>
+{{ end }}
