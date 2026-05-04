@@ -2,3 +2,4 @@ docs/
 public/
 .hugo_build.lock
 *.swp
+.idea/

@@ -14,7 +14,7 @@ about functional programming.
 
 You can find me at:
 
-* [Mastodon](https://pol.social/@krzysztofk)
+* [Mastodon](https://mastodon.social/@kkomorowski)
 * [GitHub](https://github.com/kkomorowski)
 * [LinkedIn](https://www.linkedin.com/in/krzysztof-komorowski-4194155)
 
