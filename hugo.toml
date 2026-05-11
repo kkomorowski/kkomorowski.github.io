@@ -1,9 +1,12 @@
 baseURL = 'https://hiquality.dev/'
-languageCode = 'en-us'
+locale = 'en-us'
 title = 'hiquality.dev'
 theme = 'hiquality-dev-theme'
 minifyHTML = true
 publishDir = 'docs'
+[author]
+  name = 'Krzysztof Komorowski'
+  email = 'krzysztof@hiquality.dev'
 
 
 [markup]
