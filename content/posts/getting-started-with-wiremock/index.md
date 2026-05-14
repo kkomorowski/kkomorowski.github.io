@@ -1,6 +1,7 @@
 ---
 title: "Getting Started with WireMock"
 date: "2026-05-13T21:00:00+02:00"
+author: "Krzysztof Komorowski"
 tags: [Testing, Java, WireMock]
 image: "cover.png"
 type: "post"

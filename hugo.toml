@@ -4,10 +4,10 @@ title = 'hiquality.dev'
 theme = 'hiquality-dev-theme'
 minifyHTML = true
 publishDir = 'docs'
+
 [author]
   name = 'Krzysztof Komorowski'
   email = 'krzysztof@hiquality.dev'
-
 
 [markup]
   [markup.highlight]
