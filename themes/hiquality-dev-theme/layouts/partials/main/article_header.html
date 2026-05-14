@@ -1,14 +1,28 @@
 <h1><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h1>
-{{ if .Date }}
-<p class="published_at">
-    {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
-    {{ $dateHuman := .Date | time.Format ":date_long" }}
-    <time datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
-    | 
-    {{ $readTime := cond (gt .ReadingTime 1) "minutes" "minute" }}
-    Reading time: {{ .ReadingTime }} {{ $readTime }}
-</p>
+
+<ul class="article_meta">
+
+{{ if .Params.author }}
+<li>
+    {{ with .Params.author }}By <span class="author_name">{{ . }}</span>{{ end }}
+</li>
 {{ end }}
+
+{{ if .Date }}
+<li>
+    {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
+    {{ $dateHuman := .Date | time.Format "2 January 2006" }}
+    Published on <time datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
+</li>
+{{ end }}
+
+<li>
+    {{ $readTime := cond (gt .ReadingTime 1) "minutes" "minute" }}
+    Read in <span class="reading_time">{{ .ReadingTime }} {{ $readTime }}</span>
+</li>
+
+</ul>
+
 {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
 
 {{ if .Draft }}<div class="admonition warning">
