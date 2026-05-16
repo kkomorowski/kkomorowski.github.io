@@ -98,11 +98,16 @@ body {
   color: var(--text-color);
 }
 
+.container {
+  max-width: var(--main-width);
+  margin: auto;
+}
+
 header, footer {
   margin: auto;
-  max-width: var(--main-width);
+  width: 100%;
   background-color: var(--header-color);
-  padding: 10px;
+  padding: 20px;
   font-family: 'Jost', sans-serif;
 }
 
@@ -115,9 +120,10 @@ footer {
 }
 
 #topbar {
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 50px;
-  grid-template-areas: "logo nav toggle"
+  grid-template-columns: 50px auto 50px;
+  grid-template-areas: "left logo toggle";
 }
 
 #navigation {
@@ -158,6 +164,8 @@ footer {
 
 #logo {
   display: flex;
+  align-content: center;
+  justify-content: center;
 }
 
 svg#hi-logo {
@@ -185,12 +193,6 @@ svg#hi-logo {
   border-radius: 50%;
   margin: 1em;
   box-shadow: 2px 2px 5px black;
-}
-
-main {
-  margin: auto;
-  max-width: var(--main-width);
-  padding: 10px;
 }
 
 #icons {
