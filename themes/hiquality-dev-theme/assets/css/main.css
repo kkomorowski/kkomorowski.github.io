@@ -51,8 +51,8 @@
   --table-odd-row-bg: hsla(207, 59%, 57%, 0.25);
   --hljs-border: #eaeaea;
   --hljs-text: #383a42;
-  --hljs-bg: #fafafa;
-  --hljs-comment: #a0a1a7;
+  --hljs-bg: #eeeeee;
+  --hljs-comment: #888888;
   --hljs-keyword: #a626a4;
   --hljs-name: #e45649;
   --hljs-literal: #0184bb;
@@ -75,8 +75,8 @@
   --table-odd-row-bg: hsla(207, 59%, 57%, 0.25);
   --hljs-border: #393f49;
   --hljs-text: #abb2bf;
-  --hljs-bg: #282c34;
-  --hljs-comment: #5c6370;
+  --hljs-bg: #31363f;
+  --hljs-comment: #818998;
   --hljs-keyword: #c678dd;
   --hljs-name: #e06c75;
   --hljs-literal: #56b6c2;
@@ -368,11 +368,6 @@ th, td {
   padding: 5px;
 }
 
-pre {
-  font-family: 'JetBrains Mono', monospace;
-
-}
-
 li {
   margin-left: 1em;
 }
@@ -438,13 +433,18 @@ li {
 
 
 code {
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.8em;
+  border: solid 1px var(--hljs-border);
+  border-radius: 10px;
+  padding: 0.2em 0.5em;
+  background-color: var(--hljs-bg);
 }
 
 pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 1em
+  padding: 1em;
 }
 
 code.hljs {
