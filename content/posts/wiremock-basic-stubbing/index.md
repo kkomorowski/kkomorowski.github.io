@@ -48,6 +48,35 @@ givenThat(
 
 Here I created a stub that for a `GET` request on the relative URL matching exactly `/hello/wiremock` will return a `200` response that will have `Content-Type` header `application-json` and the body containing a greeting.
 
+`urlEqualTo` URL pattern matches full path with the query parameters. To match only on the path I would use `urlPathEqualTo` method as in this example:
+
+```java
+@Test
+public void getHelloTest() {
+  stubFor(
+    get(urlPathEqualTo("/hello"))
+      .willReturn(ok())
+  );
+
+  given()
+    .baseUri("http://localhost:8080")
+  .when()
+    .get("/hello?who=wiremock")
+  .then()
+    .assertThat().statusCode(200);
+}
+```
+
+A basic stub
+```java
+stubFor(get("/hello"));
+```
+is an equivalent of
+```java
+stubFor(urlEqualTo("/hello"));
+```
+so the query parameters should be specified here as well if needed.
+
 ### Stubbing different HTTP methods
 
 The same way as for the `GET` request I can prepare stubs for other HTTP methods like `POST`, `PUT`, `DELETE`, etc.
@@ -90,8 +119,35 @@ This stub is most useful when I would like to set some default API behaviour dif
 
 ### Matching on URL with regular expressions
 
+Match on the URL does not need to be exact. Both matches - for URL and path - have their regular expression counterparts.
+
+To match with the regex I can use following stub:
+
+```java
+stubFor(
+  get(urlPathEqualTo("/hello/([a-z]*)"))
+    .willReturn(ok())
+);
+```
+
+### Matching on path parameters
+
+WireMock supports matching on the path parameters as well.
+
+```java
+stubFor(
+  get(urlPathTemplate("/hello/{name}"))
+    .withPathParam("name", equalTo("wiremock"))
+    .willReturn(ok("Hello, WireMock!"))
+);
+```
+
 ## Matching on request body and headers
 
 ### Multiple logical conditions
 
 ## Summary
+
+## References
+
+1. Stubbing | WireMock - https://wiremock.org/docs/stubbing/
