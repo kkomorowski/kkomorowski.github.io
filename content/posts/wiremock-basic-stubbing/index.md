@@ -41,14 +41,52 @@ givenThat(
       aResponse()
         .withHeader("Content-Type", "application/json")
         .withStatus(200)
-        .withBody("{\"greeting\": \"Hello, WireMock!\"}")));
+        .withBody("{\"greeting\": \"Hello, WireMock!\"}")
+    )
+);
 ```
 
 Here I created a stub that for a `GET` request on the relative URL matching exactly `/hello/wiremock` will return a `200` response that will have `Content-Type` header `application-json` and the body containing a greeting.
 
 ### Stubbing different HTTP methods
 
+The same way as for the `GET` request I can prepare stubs for other HTTP methods like `POST`, `PUT`, `DELETE`, etc.
+
+Let's look at the example of the stub for the `POST` request:
+
+```java
+givenThat(
+  post("/order")
+    .willReturn(
+      aResponse()
+        .withStatus(201)
+        .withBody("{\"order_id\":\"b378ba3d-5c2d-43cc-9d21-e8a3cfe0be0c\"}")
+    )
+);
+```
+
 ### Could I prepare a stub that cover all HTTP method?
+
+WireMock implements a special `MappingBuilder` that will match any HTTP method. Let's look at following test:
+
+```java
+@Test
+public void helloAnyMethod() {
+  stubFor(
+    any(urlEqualTo("/hello"))
+      .willReturn(ok())
+  );
+
+  given()
+    .baseUri("http://localhost:8080")
+  .when()
+    .delete("/hello")
+  .then()
+    .assertThat().statusCode(200);
+}
+```
+
+This stub is most useful when I would like to set some default API behaviour different than the ususal `404` response.
 
 ### Matching on URL with regular expressions
 
